@@ -1,7 +1,9 @@
 package com.bimalghara.cleanarchitecture.domain.di
 
 import com.bimalghara.cleanarchitecture.domain.repository.CountryRepositorySource
+import com.bimalghara.cleanarchitecture.domain.repository.ErrorDetailsSource
 import com.bimalghara.cleanarchitecture.domain.use_case.GetCountryListUseCase
+import com.bimalghara.cleanarchitecture.domain.use_case.GetErrorDetailsUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -15,6 +17,11 @@ import dagger.hilt.components.SingletonComponent
 @Module
 class DomainModule {
 
+
+    @Provides
+    fun provideGetErrorDetailsUseCase(errorDetailsSource: ErrorDetailsSource): GetErrorDetailsUseCase{
+        return GetErrorDetailsUseCase(errorDetailsSource = errorDetailsSource)
+    }
 
     @Provides
     fun provideGetCountryListUseCase(countryRepositorySource: CountryRepositorySource): GetCountryListUseCase{

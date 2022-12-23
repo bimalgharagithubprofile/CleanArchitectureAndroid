@@ -21,7 +21,7 @@ class GetCountryListUseCase(private val countryRepositorySource: CountryReposito
             emit(ResourceWrapper.Success(data = countryRepositorySource.getCountryList()))
 
         }catch (e:Exception){
-            emit(ResourceWrapper.Error(errorMessage = e.message.toString()))
+            emit(ResourceWrapper.Error(errorCode = -3)) //TODO pending
         }
     }.flowOn(Dispatchers.IO)
 

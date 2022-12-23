@@ -1,8 +1,9 @@
 package com.bimalghara.cleanarchitecture.data.network
 
 
-import com.bimalghara.cleanarchitecture.data.error.NETWORK_ERROR
-import com.bimalghara.cleanarchitecture.data.error.NO_INTERNET_CONNECTION
+import com.bimalghara.cleanarchitecture.data.error.ERROR_DEFAULT
+import com.bimalghara.cleanarchitecture.data.error.ERROR_NETWORK_ERROR
+import com.bimalghara.cleanarchitecture.data.error.ERROR_NO_INTERNET_CONNECTION
 import com.bimalghara.cleanarchitecture.data.network.retrofit.ApiServiceGenerator
 import com.bimalghara.cleanarchitecture.domain.model.Country
 import com.bimalghara.cleanarchitecture.utils.NetworkConnectivitySource
@@ -28,12 +29,12 @@ class RemoteDataImpl @Inject constructor(private val serviceGenerator: ApiServic
                 ResourceWrapper.Error(errorMessage = "")
             }
         }*/
-        return ResourceWrapper.Error(errorMessage = "")
+        return ResourceWrapper.Error(errorCode = ERROR_DEFAULT)
     }
 
     private suspend fun processCall(responseCall: suspend () -> Response<*>): Any? {
         if (!networkConnectivitySource.isConnected()) {
-            return NO_INTERNET_CONNECTION
+            return ERROR_NO_INTERNET_CONNECTION
         }
         return try {
             val response = responseCall.invoke()
@@ -44,7 +45,7 @@ class RemoteDataImpl @Inject constructor(private val serviceGenerator: ApiServic
                 responseCode
             }
         } catch (e: IOException) {
-            NETWORK_ERROR
+            ERROR_NETWORK_ERROR
         }
     }
 }

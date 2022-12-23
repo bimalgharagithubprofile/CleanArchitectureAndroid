@@ -8,6 +8,6 @@ package com.bimalghara.cleanarchitecture.utils
 const val SPLASH_DELAY = 3000
 
 //network
-const val BASE_URL = "https://eeeeeeeeeeeeeeee/"
+const val BASE_URL = "https://travelbriefing.org/"
 
 //key
