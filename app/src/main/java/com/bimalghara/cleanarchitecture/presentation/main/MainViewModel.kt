@@ -4,10 +4,14 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.bimalghara.cleanarchitecture.data.error.ERROR_CHECK_YOUR_FIELDS
+import com.bimalghara.cleanarchitecture.data.error.ERROR_PASS_WORD_ERROR
+import com.bimalghara.cleanarchitecture.data.error.ERROR_USER_NAME_ERROR
 import com.bimalghara.cleanarchitecture.domain.model.Country
 import com.bimalghara.cleanarchitecture.domain.use_case.GetCountryListUseCase
 import com.bimalghara.cleanarchitecture.domain.use_case.GetErrorDetailsUseCase
 import com.bimalghara.cleanarchitecture.presentation.base.BaseViewModel
+import com.bimalghara.cleanarchitecture.utils.RegexUtils.isValidEmail
 import com.bimalghara.cleanarchitecture.utils.ResourceWrapper
 import com.bimalghara.cleanarchitecture.utils.SingleEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -40,6 +44,22 @@ class MainViewModel @Inject constructor(
         errorCode?.let {
             val error = errorDetailsUseCase(errorCode)
             _errorSingleEvent.value = SingleEvent(error.description)
+        }
+    }
+
+    fun authenticate(userName: String, passWord: String) = viewModelScope.launch {
+        val isUsernameValid = isValidEmail(userName.trim())
+        val isPassWordValid = passWord.trim().length > 4
+
+        if (isUsernameValid && !isPassWordValid) {
+            showError(ERROR_PASS_WORD_ERROR)
+        } else if (!isUsernameValid && isPassWordValid) {
+            showError(ERROR_USER_NAME_ERROR)
+        } else if (!isUsernameValid && !isPassWordValid) {
+            showError(ERROR_CHECK_YOUR_FIELDS)
+        } else {
+
+            getCountryList()
         }
     }
 

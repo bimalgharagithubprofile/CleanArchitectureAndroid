@@ -33,7 +33,12 @@ class MainActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
 
         binding.btnPress.setOnClickListener {
-            mainViewModel.showError(ERROR_USER_NAME_ERROR)
+            binding.root.hideKeyboard()
+
+            mainViewModel.authenticate(
+                binding.etUsername.text.toString(),
+                binding.etPassword.text.toString()
+            )
         }
 
     }

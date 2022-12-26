@@ -22,6 +22,7 @@ class ErrorMapperImpl @Inject constructor(@ApplicationContext val context: Conte
 
             Pair(ERROR_USER_NAME_ERROR, getErrorString(R.string.invalid_username)),
             Pair(ERROR_PASS_WORD_ERROR, getErrorString(R.string.invalid_password)),
+            Pair(ERROR_CHECK_YOUR_FIELDS, getErrorString(R.string.empty_fields)),
 
         ).withDefault { "Oops! Something went wrong" }
 
