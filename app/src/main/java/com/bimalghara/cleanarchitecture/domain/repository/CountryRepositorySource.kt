@@ -1,6 +1,7 @@
 package com.bimalghara.cleanarchitecture.domain.repository
 
 import com.bimalghara.cleanarchitecture.domain.model.Country
+import com.bimalghara.cleanarchitecture.utils.ResourceWrapper
 
 
 /**
@@ -9,6 +10,6 @@ import com.bimalghara.cleanarchitecture.domain.model.Country
 
 interface CountryRepositorySource {
 
-    suspend fun getCountryList():List<Country>
+    suspend fun getCountryList(): ResourceWrapper<List<Country>>
 
 }

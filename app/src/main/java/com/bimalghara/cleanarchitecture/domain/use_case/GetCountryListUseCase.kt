@@ -17,12 +17,9 @@ class GetCountryListUseCase(private val countryRepositorySource: CountryReposito
 
     operator fun invoke():Flow<ResourceWrapper<List<Country>>> = flow {
         emit(ResourceWrapper.Loading())
-        try{
-            emit(ResourceWrapper.Success(data = countryRepositorySource.getCountryList()))
 
-        }catch (e:Exception){
-            emit(ResourceWrapper.Error(errorCode = -3)) //TODO pending
-        }
+        emit(countryRepositorySource.getCountryList())
+
     }.flowOn(Dispatchers.IO)
 
 

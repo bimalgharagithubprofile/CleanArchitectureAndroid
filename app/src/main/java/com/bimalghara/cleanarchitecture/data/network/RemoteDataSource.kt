@@ -1,5 +1,6 @@
 package com.bimalghara.cleanarchitecture.data.network
 
+import com.bimalghara.cleanarchitecture.data.model.CountryDTO
 import com.bimalghara.cleanarchitecture.domain.model.Country
 import com.bimalghara.cleanarchitecture.utils.ResourceWrapper
 
@@ -8,5 +9,5 @@ import com.bimalghara.cleanarchitecture.utils.ResourceWrapper
  */
 
 internal interface RemoteDataSource {
-    suspend fun requestCountries(): ResourceWrapper<Country>
+    suspend fun requestCountries(): ResourceWrapper<List<CountryDTO>>
 }
