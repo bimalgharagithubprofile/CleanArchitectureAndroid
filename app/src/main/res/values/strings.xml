@@ -4,6 +4,7 @@
     <!--error-->
     <string name="no_internet">Please check your internet connection</string>
     <string name="network_error">Network error, could get data,please try again!</string>
+    <string name="socket_timeout">Connection timeout!</string>
     <string name="invalid_username">Not a valid username</string>
     <string name="invalid_password">Password must be >4 characters</string>
     <string name="empty_fields">Fields can\'t be empty!</string>

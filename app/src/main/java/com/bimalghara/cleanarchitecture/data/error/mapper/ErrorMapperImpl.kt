@@ -19,6 +19,7 @@ class ErrorMapperImpl @Inject constructor(@ApplicationContext val context: Conte
         get() = mapOf(
             Pair(ERROR_NO_INTERNET_CONNECTION, getErrorString(R.string.no_internet)),
             Pair(ERROR_NETWORK_ERROR, getErrorString(R.string.network_error)),
+            Pair(ERROR_SOCKET_TIMEOUT, getErrorString(R.string.socket_timeout)),
 
             Pair(ERROR_USER_NAME_ERROR, getErrorString(R.string.invalid_username)),
             Pair(ERROR_PASS_WORD_ERROR, getErrorString(R.string.invalid_password)),
