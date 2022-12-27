@@ -49,6 +49,7 @@ class MainActivity : BaseActivity() {
 
         observe(mainViewModel.countriesLiveData) {
             Log.e(TAG, "observe countriesLiveData | ${it.toString()}")
+            binding.txtResult.text = it.toString()
             when (it) {
                 is ResourceWrapper.Loading -> {
                     Log.e(TAG, "Loading...")

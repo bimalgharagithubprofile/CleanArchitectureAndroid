@@ -7,6 +7,6 @@ import com.bimalghara.cleanarchitecture.utils.ResourceWrapper
  * Created by BimalGhara
  */
 
-internal interface RemoteDataSource {
+interface RemoteDataSource {
     suspend fun requestCountries(): ResourceWrapper<List<CountryDTO>>
 }

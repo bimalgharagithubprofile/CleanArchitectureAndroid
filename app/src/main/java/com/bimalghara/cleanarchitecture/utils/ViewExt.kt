@@ -6,9 +6,7 @@ import android.text.TextWatcher
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
-import android.widget.ImageView
 import android.widget.Toast
-import androidx.annotation.DrawableRes
 import androidx.appcompat.widget.AppCompatEditText
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.text.PrecomputedTextCompat
@@ -88,12 +86,12 @@ fun View.setupSnackBar(
 }
 
 fun View.showToast(
-        lifecycleOwner: LifecycleOwner,
-        ToastEvent: LiveData<SingleEvent<Any>>,
-        timeLength: Int
+    lifecycleOwner: LifecycleOwner,
+    toastEvent: LiveData<SingleEvent<Any>>,
+    timeLength: Int
 ) {
 
-    ToastEvent.observe(lifecycleOwner, Observer { event ->
+    toastEvent.observe(lifecycleOwner, Observer { event ->
         event.getContentIfNotHandled()?.let {
             when (it) {
                 is String -> Toast.makeText(this.context, it, timeLength).show()
