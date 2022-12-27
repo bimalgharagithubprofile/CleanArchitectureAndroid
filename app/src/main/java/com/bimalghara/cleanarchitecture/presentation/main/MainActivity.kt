@@ -3,13 +3,9 @@ package com.bimalghara.cleanarchitecture.presentation.main
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.viewModels
-import androidx.lifecycle.LiveData
-import com.bimalghara.cleanarchitecture.data.error.ERROR_NETWORK_ERROR_404
-import com.bimalghara.cleanarchitecture.data.error.ERROR_USER_NAME_ERROR
 import com.bimalghara.cleanarchitecture.databinding.ActivityMainBinding
 import com.bimalghara.cleanarchitecture.presentation.base.BaseActivity
 import com.bimalghara.cleanarchitecture.utils.*
-import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 
 /**
@@ -35,17 +31,14 @@ class MainActivity : BaseActivity() {
         binding.btnPress.setOnClickListener {
             binding.root.hideKeyboard()
 
-            mainViewModel.authenticate(
-                binding.etUsername.text.toString(),
-                binding.etPassword.text.toString()
-            )
+            mainViewModel.getCountryList()
         }
 
     }
 
 
     override fun observeViewModel() {
-        observeError(mainViewModel.errorSingleEvent)
+        observeError(binding.root, mainViewModel.errorSingleEvent)
 
         observe(mainViewModel.countriesLiveData) {
             Log.e(TAG, "observe countriesLiveData | ${it.toString()}")
@@ -66,9 +59,5 @@ class MainActivity : BaseActivity() {
                 }
             }
         }
-    }
-
-    private fun observeError(event: LiveData<SingleEvent<Any>>) {
-        binding.root.showToast(this, event, Snackbar.LENGTH_LONG)
     }
 }

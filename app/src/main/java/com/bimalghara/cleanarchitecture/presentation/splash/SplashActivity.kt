@@ -1,13 +1,10 @@
 package com.bimalghara.cleanarchitecture.presentation.splash
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.Handler
-import com.bimalghara.cleanarchitecture.R
 import com.bimalghara.cleanarchitecture.databinding.ActivitySplashBinding
+import com.bimalghara.cleanarchitecture.presentation.auth.AuthActivity
 import com.bimalghara.cleanarchitecture.presentation.base.BaseActivity
-import com.bimalghara.cleanarchitecture.presentation.main.MainActivity
 import com.bimalghara.cleanarchitecture.utils.SPLASH_DELAY
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
@@ -41,7 +38,7 @@ class SplashActivity : BaseActivity() {
         CoroutineScope(Dispatchers.Main).launch {
             delay(SPLASH_DELAY.toLong())
 
-            val nextScreenIntent = Intent(this@SplashActivity, MainActivity::class.java)
+            val nextScreenIntent = Intent(this@SplashActivity, AuthActivity::class.java)
             startActivity(nextScreenIntent)
             finish()
         }

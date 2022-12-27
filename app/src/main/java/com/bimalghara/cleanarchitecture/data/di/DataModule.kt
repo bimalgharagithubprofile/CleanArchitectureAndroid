@@ -8,10 +8,13 @@ import com.bimalghara.cleanarchitecture.data.local.LocalDataSource
 import com.bimalghara.cleanarchitecture.data.network.RemoteDataImpl
 import com.bimalghara.cleanarchitecture.data.network.RemoteDataSource
 import com.bimalghara.cleanarchitecture.data.network.retrofit.ApiServiceGenerator
+import com.bimalghara.cleanarchitecture.data.repository.AuthRepositoryImpl
 import com.bimalghara.cleanarchitecture.data.repository.CountryRepositoryImpl
 import com.bimalghara.cleanarchitecture.data.repository.ErrorDetailsImpl
+import com.bimalghara.cleanarchitecture.domain.repository.AuthRepositorySource
 import com.bimalghara.cleanarchitecture.domain.repository.CountryRepositorySource
 import com.bimalghara.cleanarchitecture.domain.repository.ErrorDetailsSource
+import com.bimalghara.cleanarchitecture.domain.use_case.RegisterOrLoginUseCase
 import com.bimalghara.cleanarchitecture.utils.NetworkConnectivity
 import com.bimalghara.cleanarchitecture.utils.NetworkConnectivitySource
 import dagger.Binds
@@ -39,6 +42,10 @@ abstract class DataModule {
     @Singleton
     abstract fun provideErrorDetails(errorDetails: ErrorDetailsImpl): ErrorDetailsSource
 
+
+    @Binds
+    @Singleton
+    abstract fun provideAuthRepository(authRepository: AuthRepositoryImpl): AuthRepositorySource
 
     @Binds
     @Singleton

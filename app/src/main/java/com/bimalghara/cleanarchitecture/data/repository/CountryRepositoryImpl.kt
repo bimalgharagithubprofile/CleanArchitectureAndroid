@@ -13,11 +13,11 @@ import javax.inject.Inject
  * Created by BimalGhara
  */
 
-class CountryRepositoryImpl @Inject constructor(private val remoteData: RemoteDataSource) : CountryRepositorySource {
+class CountryRepositoryImpl @Inject constructor(private val remoteDataSource: RemoteDataSource) : CountryRepositorySource {
 
     override suspend fun getCountryList(): ResourceWrapper<List<Country>> {
 
-        return when(val data = remoteData.requestCountries()){
+        return when(val data = remoteDataSource.requestCountries()){
             is ResourceWrapper.Success -> {
                 ResourceWrapper.Success(data = data.data?.map { it.toDomain() })
             }
