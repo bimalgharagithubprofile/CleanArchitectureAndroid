@@ -1,4 +1,4 @@
-package com.bimalghara.cleanarchitecture.domain.model
+package com.bimalghara.cleanarchitecture.domain.model.country
 
 /**
  * Created by BimalGhara

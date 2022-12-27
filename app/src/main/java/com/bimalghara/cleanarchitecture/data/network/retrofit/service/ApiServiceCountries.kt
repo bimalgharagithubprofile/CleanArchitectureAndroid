@@ -1,9 +1,7 @@
 package com.bimalghara.cleanarchitecture.data.network.retrofit.service
 
-import com.bimalghara.cleanarchitecture.data.model.CountryDTO
+import com.bimalghara.cleanarchitecture.data.model.country.CountryDTO
 import retrofit2.http.GET
-import retrofit2.http.Path
-import retrofit2.http.Query
 
 /**
  * Created by BimalGhara
