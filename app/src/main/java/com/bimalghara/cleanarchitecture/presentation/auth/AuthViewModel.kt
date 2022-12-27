@@ -13,6 +13,7 @@ import com.bimalghara.cleanarchitecture.utils.RegexUtils.isValidEmail
 import com.bimalghara.cleanarchitecture.utils.ResourceWrapper
 import com.bimalghara.cleanarchitecture.utils.SingleEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -30,6 +31,7 @@ class AuthViewModel @Inject constructor(
     private val _errorSingleEvent = MutableLiveData<SingleEvent<Any>>()
     val errorSingleEvent: LiveData<SingleEvent<Any>> get() = _errorSingleEvent
 
+    private var _registerOrLoginJob: Job? = null
     private val _registerOrLoginLiveData = MutableLiveData<ResourceWrapper<Long>>()
     val registerOrLoginLiveData: LiveData<ResourceWrapper<Long>> get() = _registerOrLoginLiveData
 
@@ -41,8 +43,15 @@ class AuthViewModel @Inject constructor(
         }
     }
 
-    fun authenticate(userName: String, passWord: String) = viewModelScope.launch {
-        val isUsernameValid = isValidEmail(userName.trim())
+    //it will instantiate new Flow
+    //to prevent this cancel the old flow if exists[it's for re-attempt to register/login or so]
+    fun authenticate(userName: String, passWord: String) {
+        _registerOrLoginJob?.cancel()
+        _registerOrLoginJob = registerOrLoginUseCase(userName, passWord).onEach {
+            _registerOrLoginLiveData.value = it
+        }.launchIn(viewModelScope)
+
+        /*val isUsernameValid = isValidEmail(userName.trim())
         val isPassWordValid = passWord.trim().length > 4
 
         if (isUsernameValid && !isPassWordValid) {
@@ -54,13 +63,13 @@ class AuthViewModel @Inject constructor(
         } else {
 
            registerOrLogin(userName, passWord)
-        }
+        }*/
     }
 
-    private fun registerOrLogin(userName: String, passWord: String) {
+    /*private fun registerOrLogin(userName: String, passWord: String) {
         registerOrLoginUseCase(userName, passWord).onEach {
             _registerOrLoginLiveData.value = it
         }.launchIn(viewModelScope)
-    }
+    }*/
 
 }

@@ -3,6 +3,7 @@ package com.bimalghara.cleanarchitecture.domain.di
 import com.bimalghara.cleanarchitecture.domain.repository.AuthRepositorySource
 import com.bimalghara.cleanarchitecture.domain.repository.CountryRepositorySource
 import com.bimalghara.cleanarchitecture.domain.repository.ErrorDetailsSource
+import com.bimalghara.cleanarchitecture.domain.use_case.GetAllRegisteredUsersUseCase
 import com.bimalghara.cleanarchitecture.domain.use_case.GetCountryListUseCase
 import com.bimalghara.cleanarchitecture.domain.use_case.GetErrorDetailsUseCase
 import com.bimalghara.cleanarchitecture.domain.use_case.RegisterOrLoginUseCase
@@ -27,6 +28,12 @@ class DomainModule {
     @Provides
     fun provideRegisterOrLoginUseCase(authRepositorySource: AuthRepositorySource): RegisterOrLoginUseCase{
         return RegisterOrLoginUseCase(authRepositorySource = authRepositorySource)
+    }
+
+
+    @Provides
+    fun provideGetAllRegisteredUsersUseCase(authRepositorySource: AuthRepositorySource): GetAllRegisteredUsersUseCase{
+        return GetAllRegisteredUsersUseCase(authRepositorySource = authRepositorySource)
     }
 
     @Provides

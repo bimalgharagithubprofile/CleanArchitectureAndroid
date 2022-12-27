@@ -14,6 +14,7 @@ import com.bimalghara.cleanarchitecture.utils.RegexUtils.isValidEmail
 import com.bimalghara.cleanarchitecture.utils.ResourceWrapper
 import com.bimalghara.cleanarchitecture.utils.SingleEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -31,6 +32,7 @@ class MainViewModel @Inject constructor(
     private val _errorSingleEvent = MutableLiveData<SingleEvent<Any>>()
     val errorSingleEvent: LiveData<SingleEvent<Any>> get() = _errorSingleEvent
 
+    private var _countriesJob: Job? = null
     private val _countriesLiveData = MutableLiveData<ResourceWrapper<List<Country>>>()
     val countriesLiveData: LiveData<ResourceWrapper<List<Country>>> get() = _countriesLiveData
 
@@ -45,8 +47,11 @@ class MainViewModel @Inject constructor(
         }
     }
 
+    //it will instantiate new Flow
+    //to prevent this cancel the old flow if exists[it's for reloading button or so]
     fun getCountryList(){
-        getCountryListUseCase().onEach {
+        _countriesJob?.cancel()
+        _countriesJob = getCountryListUseCase().onEach {
 
         _countriesLiveData.value = it
 

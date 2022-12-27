@@ -1,10 +1,13 @@
 package com.bimalghara.cleanarchitecture.data.di
 
+import android.app.Application
 import android.content.Context
+import androidx.room.Room
 import com.bimalghara.cleanarchitecture.data.error.mapper.ErrorMapperImpl
 import com.bimalghara.cleanarchitecture.data.error.mapper.ErrorMapperSource
 import com.bimalghara.cleanarchitecture.data.local.LocalDataImpl
 import com.bimalghara.cleanarchitecture.data.local.LocalDataSource
+import com.bimalghara.cleanarchitecture.data.local.room.AppDatabase
 import com.bimalghara.cleanarchitecture.data.network.RemoteDataImpl
 import com.bimalghara.cleanarchitecture.data.network.RemoteDataSource
 import com.bimalghara.cleanarchitecture.data.network.retrofit.ApiServiceGenerator
@@ -74,7 +77,17 @@ class AppModule {
 
     @Provides
     @Singleton
-    fun provideLocalData(@ApplicationContext context: Context): LocalDataSource {
-        return LocalDataImpl(context)
+    fun provideDatabase(app: Application): AppDatabase {
+        return Room.databaseBuilder(
+            app,
+            AppDatabase::class.java,
+            AppDatabase.DATABASE_NAME
+        ).build()
+    }
+
+    @Provides
+    @Singleton
+    fun provideLocalData(@ApplicationContext context: Context, db: AppDatabase): LocalDataSource {
+        return LocalDataImpl(context, db.authDao)
     }
 }

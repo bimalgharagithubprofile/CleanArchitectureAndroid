@@ -1,20 +1,33 @@
 package com.bimalghara.cleanarchitecture.data.local
 
 import android.content.Context
-import com.bimalghara.cleanarchitecture.data.model.auth.AuthData
+import com.bimalghara.cleanarchitecture.data.local.room.AuthDao
+import com.bimalghara.cleanarchitecture.domain.model.auth.AuthData
+import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
-class LocalDataImpl @Inject constructor(private val context: Context) : LocalDataSource {
+/**
+ * Created by BimalGhara
+ */
+
+class LocalDataImpl @Inject constructor(
+    private val context: Context,
+    private val authDao: AuthDao
+) : LocalDataSource {
 
     override suspend fun saveUserData(authData: AuthData): Long {
-        return 1111
+        return authDao.addUser(authData)
     }
 
-    override suspend fun getUserData(): AuthData {
-        return AuthData(id="1111", "bimal", "ghara", "bimal@gmail.com")
+    override fun getUserData(): Flow<List<AuthData>> {
+        return authDao.getUser()
     }
 
-    override suspend fun getLastLoginSession(): Long {
-        return 1672119625
+    override suspend fun getUserDataById(id: Long): AuthData? {
+        return authDao.getUserById(id = id)
+    }
+
+    override suspend fun getLastLoginSession(id: Long): Long {
+        return authDao.getLastTimestamp(id = id)
     }
 }
