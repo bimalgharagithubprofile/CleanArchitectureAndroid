@@ -31,8 +31,6 @@ class SplashActivity : BaseActivity() {
         navigateToMainScreen()
     }
 
-    override fun observeViewModel() {
-    }
 
     private fun navigateToMainScreen() {
         CoroutineScope(Dispatchers.Main).launch {

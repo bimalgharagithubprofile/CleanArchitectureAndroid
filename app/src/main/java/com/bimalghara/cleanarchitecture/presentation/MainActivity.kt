@@ -25,7 +25,4 @@ class MainActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
     }
 
-    override fun observeViewModel() {
-        //observeError(binding.root, mainViewModel.errorSingleEvent)
-    }
 }

@@ -61,7 +61,7 @@ class HomeFragment : BaseFragment() {
 
 
     override fun observeViewModel() {
-        observeError(binding.container, homeViewModel.errorSingleEvent)
+        //observeError(binding.container, homeViewModel.errorSingleEvent)
 
         observe(homeViewModel.countriesLiveData) {
             Log.e(TAG, "observe countriesLiveData | ${it.toString()}")

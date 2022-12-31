@@ -2,6 +2,7 @@ package com.bimalghara.cleanarchitecture.presentation.base
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
+import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.lifecycle.LiveData
 import com.bimalghara.cleanarchitecture.utils.SingleEvent
@@ -13,18 +14,13 @@ import com.google.android.material.snackbar.Snackbar
  */
 
 
-abstract class BaseActivity : ComponentActivity() {
+abstract class BaseActivity : AppCompatActivity() {
 
-    abstract fun observeViewModel()
     protected abstract fun initViewBinding()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         initViewBinding()
-        observeViewModel()
     }
 
-    fun observeError(rootLayout: ConstraintLayout, event: LiveData<SingleEvent<Any>>) {
-        rootLayout.showToast(this, event, Snackbar.LENGTH_LONG)
-    }
 }
