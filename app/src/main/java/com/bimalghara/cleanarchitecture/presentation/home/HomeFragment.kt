@@ -5,9 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
-import com.bimalghara.cleanarchitecture.R
 import com.bimalghara.cleanarchitecture.databinding.FragmentHomeBinding
 import com.bimalghara.cleanarchitecture.presentation.base.BaseFragment
 import com.bimalghara.cleanarchitecture.utils.*
