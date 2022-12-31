@@ -1,7 +1,7 @@
 package com.bimalghara.cleanarchitecture.presentation.base
 
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
+import androidx.activity.ComponentActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.lifecycle.LiveData
 import com.bimalghara.cleanarchitecture.utils.SingleEvent
@@ -13,7 +13,7 @@ import com.google.android.material.snackbar.Snackbar
  */
 
 
-abstract class BaseActivity : AppCompatActivity() {
+abstract class BaseActivity : ComponentActivity() {
 
     abstract fun observeViewModel()
     protected abstract fun initViewBinding()

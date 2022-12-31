@@ -6,6 +6,8 @@ import androidx.activity.viewModels
 import com.bimalghara.cleanarchitecture.databinding.ActivityMainBinding
 import com.bimalghara.cleanarchitecture.presentation.base.BaseActivity
 import com.bimalghara.cleanarchitecture.utils.*
+import com.bimalghara.cleanarchitecture.utils.permissions.Permissions
+import com.bimalghara.cleanarchitecture.utils.permissions.PermissionManager
 import dagger.hilt.android.AndroidEntryPoint
 
 /**
@@ -19,6 +21,9 @@ class MainActivity : BaseActivity() {
     private lateinit var binding: ActivityMainBinding
     private val mainViewModel: MainViewModel by viewModels()
 
+    private val permissionManager = PermissionManager().from(this)
+
+
     override fun initViewBinding() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         val view = binding.root
@@ -27,6 +32,21 @@ class MainActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+
+        //binding.btnPermissions.setOnClickListener {
+
+            permissionManager
+                .request(Permissions.Camera)
+                .rationale("We need all Permissions to see your face")
+                .checkPermission { granted ->
+                    if(granted)
+                        Log.e(TAG, "runtime permissions allowed")
+                    else
+                        Log.e(TAG, "runtime permissions denied")
+                }
+
+        //}
 
         binding.btnPress.setOnClickListener {
             binding.root.hideKeyboard()
