@@ -26,7 +26,8 @@ class HomeFragment : BaseFragment() {
     private lateinit var binding: FragmentHomeBinding
     private val homeViewModel: HomeViewModel by viewModels()
 
-    private val permissionManager = PermissionManager().from(this)
+    private val permissionManager = PermissionManager.from(this)
+
 
 
     override fun onCreateView(
@@ -36,18 +37,22 @@ class HomeFragment : BaseFragment() {
     ): View {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_home, container, false)
 
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
         binding.btnPermissions.setOnClickListener {
-
-        permissionManager
-            .request(Permissions.Camera)
-            .rationale("We need all Permissions to see your face")
-            .checkPermission { granted ->
-                if(granted)
-                    Log.e(TAG, "runtime permissions allowed")
-                else
-                    Log.e(TAG, "runtime permissions denied")
-            }
-
+            permissionManager
+                .request(Permissions.Camera)
+                .rationale("We need all Permissions to see your face")
+                .checkPermission { granted ->
+                    if(granted)
+                        Log.e(TAG, "runtime permissions allowed")
+                    else
+                        Log.e(TAG, "runtime permissions denied")
+                }
         }
 
         binding.btnPress.setOnClickListener {
@@ -55,8 +60,6 @@ class HomeFragment : BaseFragment() {
 
             homeViewModel.getCountryList()
         }
-
-        return binding.root
     }
 
 
