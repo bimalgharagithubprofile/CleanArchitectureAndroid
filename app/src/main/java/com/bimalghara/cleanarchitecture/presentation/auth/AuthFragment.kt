@@ -26,23 +26,12 @@ import kotlinx.coroutines.launch
 class AuthFragment : BaseFragment<FragmentAuthBinding>() {
     private val TAG = javaClass.simpleName
 
-    //private lateinit var binding: FragmentAuthBinding
     private val authViewModel: AuthViewModel by viewModels()
 
     override fun getFragmentBinding(
         inflater: LayoutInflater,
         container: ViewGroup?
     ) = FragmentAuthBinding.inflate(inflater, container, false)
-
-    /*override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_auth, container, false)
-
-        return binding.root
-    }*/
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
