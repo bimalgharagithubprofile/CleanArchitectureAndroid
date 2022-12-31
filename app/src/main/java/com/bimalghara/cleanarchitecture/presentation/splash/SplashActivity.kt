@@ -3,7 +3,7 @@ package com.bimalghara.cleanarchitecture.presentation.splash
 import android.content.Intent
 import android.os.Bundle
 import com.bimalghara.cleanarchitecture.databinding.ActivitySplashBinding
-import com.bimalghara.cleanarchitecture.presentation.auth.AuthActivity
+import com.bimalghara.cleanarchitecture.presentation.MainActivity
 import com.bimalghara.cleanarchitecture.presentation.base.BaseActivity
 import com.bimalghara.cleanarchitecture.utils.SPLASH_DELAY
 import dagger.hilt.android.AndroidEntryPoint
@@ -38,7 +38,7 @@ class SplashActivity : BaseActivity() {
         CoroutineScope(Dispatchers.Main).launch {
             delay(SPLASH_DELAY.toLong())
 
-            val nextScreenIntent = Intent(this@SplashActivity, AuthActivity::class.java)
+            val nextScreenIntent = Intent(this@SplashActivity, MainActivity::class.java)
             startActivity(nextScreenIntent)
             finish()
         }

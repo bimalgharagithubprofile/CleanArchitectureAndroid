@@ -1,16 +1,12 @@
-package com.bimalghara.cleanarchitecture.presentation.main
+package com.bimalghara.cleanarchitecture.presentation.home
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.bimalghara.cleanarchitecture.data.error.ERROR_CHECK_YOUR_FIELDS
-import com.bimalghara.cleanarchitecture.data.error.ERROR_PASS_WORD_ERROR
-import com.bimalghara.cleanarchitecture.data.error.ERROR_USER_NAME_ERROR
 import com.bimalghara.cleanarchitecture.domain.model.country.Country
 import com.bimalghara.cleanarchitecture.domain.use_case.GetCountryListUseCase
 import com.bimalghara.cleanarchitecture.domain.use_case.GetErrorDetailsUseCase
 import com.bimalghara.cleanarchitecture.presentation.base.BaseViewModel
-import com.bimalghara.cleanarchitecture.utils.RegexUtils.isValidEmail
 import com.bimalghara.cleanarchitecture.utils.ResourceWrapper
 import com.bimalghara.cleanarchitecture.utils.SingleEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -24,7 +20,7 @@ import javax.inject.Inject
  * Created by BimalGhara
  */
 @HiltViewModel
-class MainViewModel @Inject constructor(
+class HomeViewModel @Inject constructor(
     private val errorDetailsUseCase: GetErrorDetailsUseCase,
     private val getCountryListUseCase: GetCountryListUseCase
 ) : BaseViewModel() {

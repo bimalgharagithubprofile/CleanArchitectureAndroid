@@ -1,13 +1,16 @@
 package com.bimalghara.cleanarchitecture.presentation.auth
 
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import androidx.activity.viewModels
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.bimalghara.cleanarchitecture.R
-import com.bimalghara.cleanarchitecture.databinding.ActivityAuthBinding
-import com.bimalghara.cleanarchitecture.presentation.base.BaseActivity
-import com.bimalghara.cleanarchitecture.presentation.main.MainActivity
+import com.bimalghara.cleanarchitecture.databinding.FragmentAuthBinding
+import com.bimalghara.cleanarchitecture.presentation.base.BaseFragment
 import com.bimalghara.cleanarchitecture.utils.*
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
@@ -15,21 +18,25 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
+/**
+ * Created by BimalGhara
+ */
+
 @AndroidEntryPoint
-class AuthActivity : BaseActivity() {
+class AuthFragment : BaseFragment() {
     private val TAG = javaClass.simpleName
 
-    private lateinit var binding: ActivityAuthBinding
+    private lateinit var binding: FragmentAuthBinding
     private val authViewModel: AuthViewModel by viewModels()
 
-    override fun initViewBinding() {
-        binding = ActivityAuthBinding.inflate(layoutInflater)
-        val view = binding.root
-        setContentView(view)
-    }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_auth, container, false)
 
         binding.btnRegister.setOnClickListener {
             binding.root.hideKeyboard()
@@ -39,10 +46,12 @@ class AuthActivity : BaseActivity() {
                 binding.etPassword.text.toString()
             )
         }
+
+        return binding.root
     }
 
     override fun observeViewModel() {
-        observeError(binding.root, authViewModel.errorSingleEvent)
+        observeError(binding.container, authViewModel.errorSingleEvent)
 
         observe(authViewModel.registerOrLoginLiveData) {
             Log.e(TAG, "observe registerOrLoginLiveData | ${it.toString()}")
@@ -70,9 +79,8 @@ class AuthActivity : BaseActivity() {
         CoroutineScope(Dispatchers.Main).launch {
             delay(SPLASH_DELAY.toLong())
 
-            val nextScreenIntent = Intent(this@AuthActivity, MainActivity::class.java)
-            startActivity(nextScreenIntent)
-            finish()
+            if(findNavController().currentDestination?.id == R.id.authFragment)
+                findNavController().navigate(R.id.action_authFragment_to_homeFragment)
         }
     }
 }
