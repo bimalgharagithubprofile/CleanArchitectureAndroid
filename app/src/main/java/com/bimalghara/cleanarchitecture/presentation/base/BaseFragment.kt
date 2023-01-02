@@ -20,11 +20,6 @@ abstract class BaseFragment<B: ViewBinding> : Fragment() {
     abstract fun observeViewModel()
 
 
-    /*override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        observeViewModel()
-    }*/
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
