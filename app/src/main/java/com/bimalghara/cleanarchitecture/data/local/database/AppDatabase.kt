@@ -1,4 +1,4 @@
-package com.bimalghara.cleanarchitecture.data.local.room
+package com.bimalghara.cleanarchitecture.data.local.database
 
 import androidx.room.Database
 import androidx.room.RoomDatabase

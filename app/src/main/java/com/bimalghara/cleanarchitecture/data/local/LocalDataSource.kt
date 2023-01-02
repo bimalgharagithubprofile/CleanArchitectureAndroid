@@ -9,6 +9,8 @@ import kotlinx.coroutines.flow.Flow
 
 interface LocalDataSource {
     suspend fun saveUserData(authData: AuthData): Long
+    suspend fun saveUserId(id: Long)
+    suspend fun getUserId(): Long
 
     //can't be suspending because it's Flow
     fun getUserData(): Flow<List<AuthData>>
