@@ -47,7 +47,7 @@ class AuthFragment : BaseFragment<FragmentAuthBinding>() {
     }
 
     override fun observeViewModel() {
-        //observeError(binding.container, authViewModel.errorSingleEvent)
+        observeError(binding.root, authViewModel.errorSingleEvent)
 
         observe(authViewModel.registerOrLoginLiveData) {
             Log.e(TAG, "observe registerOrLoginLiveData | ${it.toString()}")

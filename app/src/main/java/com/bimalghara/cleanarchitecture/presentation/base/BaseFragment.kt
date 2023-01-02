@@ -20,10 +20,10 @@ abstract class BaseFragment<B: ViewBinding> : Fragment() {
     abstract fun observeViewModel()
 
 
-    override fun onCreate(savedInstanceState: Bundle?) {
+    /*override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         observeViewModel()
-    }
+    }*/
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -34,7 +34,13 @@ abstract class BaseFragment<B: ViewBinding> : Fragment() {
         return binding.root
     }
 
-    /*fun observeError(rootLayout: ConstraintLayout, event: LiveData<SingleEvent<Any>>) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        observeViewModel()
+    }
+
+    fun observeError(rootLayout: ConstraintLayout, event: LiveData<SingleEvent<Any>>) {
         rootLayout.showToast(this, event, Snackbar.LENGTH_LONG)
-    }*/
+    }
 }
