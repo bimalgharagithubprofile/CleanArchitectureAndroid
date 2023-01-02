@@ -51,25 +51,8 @@ class AuthViewModel @Inject constructor(
             _registerOrLoginLiveData.value = it
         }.launchIn(viewModelScope)
 
-        /*val isUsernameValid = isValidEmail(userName.trim())
-        val isPassWordValid = passWord.trim().length > 4
-
-        if (isUsernameValid && !isPassWordValid) {
-            showError(ERROR_PASS_WORD_ERROR)
-        } else if (!isUsernameValid && isPassWordValid) {
-            showError(ERROR_USER_NAME_ERROR)
-        } else if (!isUsernameValid && !isPassWordValid) {
-            showError(ERROR_CHECK_YOUR_FIELDS)
-        } else {
-
-           registerOrLogin(userName, passWord)
-        }*/
     }
 
-    /*private fun registerOrLogin(userName: String, passWord: String) {
-        registerOrLoginUseCase(userName, passWord).onEach {
-            _registerOrLoginLiveData.value = it
-        }.launchIn(viewModelScope)
-    }*/
+
 
 }

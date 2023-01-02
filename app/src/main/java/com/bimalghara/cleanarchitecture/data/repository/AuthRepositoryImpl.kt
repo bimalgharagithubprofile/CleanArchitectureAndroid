@@ -9,7 +9,8 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
-class AuthRepositoryImpl @Inject constructor(private val localDataSource: LocalDataSource) : AuthRepositorySource {
+class AuthRepositoryImpl @Inject constructor(private val localDataSource: LocalDataSource) :
+    AuthRepositorySource {
 
     override suspend fun registerOrLogin(
         username: String,
@@ -22,13 +23,12 @@ class AuthRepositoryImpl @Inject constructor(private val localDataSource: LocalD
             lastName = name,//mocked dummy data
             email = username
         )
-        return when (val response = localDataSource.saveUserData(auth)){
-            is Long -> {
-                ResourceWrapper.Success(data = response)
-            }
-            else -> {
-                ResourceWrapper.Error(errorCode = ERROR_AUTH_FAILED)
-            }
+        val response = localDataSource.saveUserData(auth)
+        return if (response > 0) {
+            localDataSource.saveUserId(response)
+            ResourceWrapper.Success(data = response)
+        } else {
+            ResourceWrapper.Error(errorCode = ERROR_AUTH_FAILED)
         }
     }
 
@@ -40,7 +40,8 @@ class AuthRepositoryImpl @Inject constructor(private val localDataSource: LocalD
         return localDataSource.getUserDataById(id)
     }
 
-    override suspend fun getLastSession(id: Long): Long {
-        return localDataSource.getLastLoginSession(id = id)
+    override suspend fun getLastSession(): Long {
+        val userId = localDataSource.getUserId()
+        return if(userId==-1L) userId else localDataSource.getLastLoginSession(id = userId)
     }
 }

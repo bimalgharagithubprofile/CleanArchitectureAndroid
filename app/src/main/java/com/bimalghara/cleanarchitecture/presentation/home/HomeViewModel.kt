@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.bimalghara.cleanarchitecture.domain.model.country.Country
 import com.bimalghara.cleanarchitecture.domain.use_case.GetCountryListUseCase
 import com.bimalghara.cleanarchitecture.domain.use_case.GetErrorDetailsUseCase
+import com.bimalghara.cleanarchitecture.domain.use_case.GetUserSessionUseCase
 import com.bimalghara.cleanarchitecture.presentation.base.BaseViewModel
 import com.bimalghara.cleanarchitecture.utils.ResourceWrapper
 import com.bimalghara.cleanarchitecture.utils.SingleEvent
@@ -22,17 +23,23 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val errorDetailsUseCase: GetErrorDetailsUseCase,
+    private val getUserSessionUseCase: GetUserSessionUseCase,
     private val getCountryListUseCase: GetCountryListUseCase
 ) : BaseViewModel() {
 
     private val _errorSingleEvent = MutableLiveData<SingleEvent<Any>>()
     val errorSingleEvent: LiveData<SingleEvent<Any>> get() = _errorSingleEvent
 
+    private var _userSessionJob: Job? = null
+    private val _userSessionLiveData = MutableLiveData<Long>()
+    val userSessionLiveData: LiveData<Long> get() = _userSessionLiveData
+
     private var _countriesJob: Job? = null
     private val _countriesLiveData = MutableLiveData<ResourceWrapper<List<Country>>>()
     val countriesLiveData: LiveData<ResourceWrapper<List<Country>>> get() = _countriesLiveData
 
     init {
+        getUserSessionDetails()
         getCountryList()
     }
 
@@ -41,6 +48,13 @@ class HomeViewModel @Inject constructor(
             val error = errorDetailsUseCase(errorCode)
             _errorSingleEvent.value = SingleEvent(error.description)
         }
+    }
+
+    private fun getUserSessionDetails(){
+        _userSessionJob?.cancel()
+        _userSessionJob = getUserSessionUseCase().onEach {
+            _userSessionLiveData.value = it
+        }.launchIn(viewModelScope)
     }
 
     //it will instantiate new Flow

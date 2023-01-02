@@ -13,5 +13,5 @@ interface AuthRepositorySource {
 
     suspend fun getUserDataById(id: Long): AuthData?
 
-    suspend fun getLastSession(id: Long): Long
+    suspend fun getLastSession(): Long
 }
