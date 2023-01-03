@@ -6,7 +6,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface AuthRepositorySource {
 
-    suspend fun registerOrLogin(username: String, password: String): ResourceWrapper<Long>
+    suspend fun registerOrLogin(username: String, password: String): Long
 
     //can't be suspending because it's Flow
     fun getUserData(): Flow<List<AuthData>>

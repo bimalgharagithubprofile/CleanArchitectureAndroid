@@ -1,8 +1,10 @@
 package com.bimalghara.cleanarchitecture.presentation.auth
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.bimalghara.cleanarchitecture.data.error.ErrorDetails
 import com.bimalghara.cleanarchitecture.domain.use_case.GetErrorDetailsUseCase
 import com.bimalghara.cleanarchitecture.domain.use_case.RegisterOrLoginUseCase
 import com.bimalghara.cleanarchitecture.presentation.base.BaseViewModel
@@ -23,6 +25,7 @@ class AuthViewModel @Inject constructor(
     private val errorDetailsUseCase: GetErrorDetailsUseCase,
     private val registerOrLoginUseCase: RegisterOrLoginUseCase
 ) : BaseViewModel() {
+    private val logTag = javaClass.simpleName
 
     private val _errorSingleEvent = MutableLiveData<SingleEvent<Any>>()
     val errorSingleEvent: LiveData<SingleEvent<Any>> get() = _errorSingleEvent
@@ -32,10 +35,11 @@ class AuthViewModel @Inject constructor(
     val registerOrLoginLiveData: LiveData<ResourceWrapper<Long>> get() = _registerOrLoginLiveData
 
 
-    fun showError(errorCode: Int?) = viewModelScope.launch {
-        errorCode?.let {
-            val error = errorDetailsUseCase(it)
-            _errorSingleEvent.value = SingleEvent(error.description)
+    fun showError(errorDetails: ErrorDetails?) = viewModelScope.launch {
+        errorDetails?.let {
+            Log.e(logTag, "showing error for: $it")
+//            val error = errorDetailsUseCase(it)
+//            _errorSingleEvent.value = SingleEvent(error.description)
         }
     }
 
@@ -44,7 +48,9 @@ class AuthViewModel @Inject constructor(
     fun authenticate(userName: String, passWord: String) {
         _registerOrLoginJob?.cancel()
         _registerOrLoginJob = registerOrLoginUseCase(userName, passWord).onEach {
+
             _registerOrLoginLiveData.value = it
+
         }.launchIn(viewModelScope)
 
     }

@@ -77,9 +77,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                     binding.progressBar.toGone()
                 }
                 else -> {
-                    Log.e(logTag, "error ==>> ${it.errorCode}")
+                    Log.e(logTag, "error ==>> ${it.errorDetails}")
                     binding.progressBar.toGone()
-                    homeViewModel.showError(it.errorCode)
+                    homeViewModel.showError(it.errorDetails)
                 }
             }
         }

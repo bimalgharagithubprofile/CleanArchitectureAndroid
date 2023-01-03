@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.bimalghara.cleanarchitecture.data.error.ERROR_NO_INTERNET_CONNECTION
+import com.bimalghara.cleanarchitecture.data.error.ErrorDetails
 import com.bimalghara.cleanarchitecture.domain.model.country.Country
 import com.bimalghara.cleanarchitecture.domain.use_case.GetCountryListUseCase
 import com.bimalghara.cleanarchitecture.domain.use_case.GetErrorDetailsUseCase
@@ -52,10 +53,11 @@ class HomeViewModel @Inject constructor(
         getUserSessionDetails()
     }
 
-    fun showError(errorCode: Int?) = viewModelScope.launch {
-        errorCode?.let {
-            val error = errorDetailsUseCase(it)
-            _errorSingleEvent.value = SingleEvent(error.description)
+    fun showError(errorDetails: ErrorDetails?) = viewModelScope.launch {
+        errorDetails?.let {
+            Log.e(logTag, "showing error for: $it")
+//            val error = errorDetailsUseCase(it)
+//            _errorSingleEvent.value = SingleEvent(error.description)
         }
     }
 
@@ -76,10 +78,10 @@ class HomeViewModel @Inject constructor(
     //it will instantiate new Flow
     //to prevent this cancel the old flow if exists[it's for reloading button or so]
     fun getCountryList() {
-        if(networkConnectivityLiveData.value != NetworkConnectivitySource.Status.Available) {
-            showError(ERROR_NO_INTERNET_CONNECTION)
+        /*if(networkConnectivityLiveData.value != NetworkConnectivitySource.Status.Available) {
+            showError(ErrorDetails(code = ERROR_NO_INTERNET_CONNECTION))
             return
-        }
+        }*/
 
         _countriesJob?.cancel()
         _countriesJob = getCountryListUseCase().onEach {

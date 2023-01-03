@@ -1,6 +1,7 @@
 package com.bimalghara.cleanarchitecture.data.repository
 
-import com.bimalghara.cleanarchitecture.data.error.ERROR_DEFAULT
+import com.bimalghara.cleanarchitecture.data.error.CustomException
+import com.bimalghara.cleanarchitecture.data.error.ErrorDetails
 import com.bimalghara.cleanarchitecture.data.mapper.toDomain
 import com.bimalghara.cleanarchitecture.data.network.RemoteDataSource
 import com.bimalghara.cleanarchitecture.domain.model.country.Country
@@ -13,18 +14,17 @@ import javax.inject.Inject
  * Created by BimalGhara
  */
 
-class CountryRepositoryImpl @Inject constructor(private val remoteDataSource: RemoteDataSource) : CountryRepositorySource {
+class CountryRepositoryImpl @Inject constructor(private val remoteDataSource: RemoteDataSource) :
+    CountryRepositorySource {
 
-    override suspend fun getCountryList(): ResourceWrapper<List<Country>> {
+    override suspend fun getCountryList(): List<Country> {
+        return try {
+            val data = remoteDataSource.requestCountries()
 
-        return when(val data = remoteDataSource.requestCountries()){
-            is ResourceWrapper.Success -> {
-                ResourceWrapper.Success(data = data.data?.map { it.toDomain() })
-            }
-            else -> {
-                ResourceWrapper.Error(errorCode = data.errorCode ?: ERROR_DEFAULT)
-            }
+            data.map { it.toDomain() }
+        } catch (e: CustomException) {
+            throw e
         }
     }
-
 }
+

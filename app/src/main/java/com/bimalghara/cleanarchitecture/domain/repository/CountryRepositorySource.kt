@@ -10,6 +10,6 @@ import com.bimalghara.cleanarchitecture.utils.ResourceWrapper
 
 interface CountryRepositorySource {
 
-    suspend fun getCountryList(): ResourceWrapper<List<Country>>
+    suspend fun getCountryList(): List<Country>
 
 }

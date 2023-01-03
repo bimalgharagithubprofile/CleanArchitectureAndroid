@@ -1,11 +1,11 @@
 package com.bimalghara.cleanarchitecture.data.repository
 
+import com.bimalghara.cleanarchitecture.data.error.CustomException
 import com.bimalghara.cleanarchitecture.data.error.ERROR_AUTH_FAILED
 import com.bimalghara.cleanarchitecture.data.local.LocalDataSource
 import com.bimalghara.cleanarchitecture.domain.model.auth.AuthData
 import com.bimalghara.cleanarchitecture.domain.repository.AuthRepositorySource
 import com.bimalghara.cleanarchitecture.utils.ResourceWrapper
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
@@ -15,7 +15,7 @@ class AuthRepositoryImpl @Inject constructor(private val localDataSource: LocalD
     override suspend fun registerOrLogin(
         username: String,
         password: String
-    ): ResourceWrapper<Long> {
+    ): Long {
 
         val name = username.split("@")[0]
         val auth = AuthData(
@@ -26,9 +26,9 @@ class AuthRepositoryImpl @Inject constructor(private val localDataSource: LocalD
         val response = localDataSource.saveUserData(auth)
         return if (response > 0) {
             localDataSource.saveUserId(response)
-            ResourceWrapper.Success(data = response)
+            response
         } else {
-            ResourceWrapper.Error(errorCode = ERROR_AUTH_FAILED)
+            throw CustomException(code = ERROR_AUTH_FAILED)
         }
     }
 

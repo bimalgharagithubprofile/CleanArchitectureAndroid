@@ -16,7 +16,7 @@ class RemoteDataImpl @Inject constructor(
     private val serviceGenerator: ApiServiceGenerator
 ) : RemoteDataSource, SafeApiRequest() {
 
-    override suspend fun requestCountries(): ResourceWrapper<List<CountryDTO>> {
+    override suspend fun requestCountries(): List<CountryDTO> {
         val recipesService = serviceGenerator.createApiService(ApiServiceCountries::class.java)
 
         return apiRequest(recipesService::getCountryList)
