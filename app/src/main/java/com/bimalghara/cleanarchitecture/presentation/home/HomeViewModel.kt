@@ -31,7 +31,7 @@ class HomeViewModel @Inject constructor(
     private val getUserSessionUseCase: GetUserSessionUseCase,
     private val getCountryListUseCase: GetCountryListUseCase
 ) : BaseViewModel() {
-    private val TAG = javaClass.simpleName
+    private val logTag = javaClass.simpleName
 
     private val _networkConnectivityLiveData = MutableLiveData<NetworkConnectivitySource.Status>()
     val networkConnectivityLiveData: LiveData<NetworkConnectivitySource.Status> get() = _networkConnectivityLiveData
@@ -54,14 +54,14 @@ class HomeViewModel @Inject constructor(
 
     fun showError(errorCode: Int?) = viewModelScope.launch {
         errorCode?.let {
-            val error = errorDetailsUseCase(errorCode)
+            val error = errorDetailsUseCase(it)
             _errorSingleEvent.value = SingleEvent(error.description)
         }
     }
 
     private fun observeNetworkStatus() = viewModelScope.launch {
         networkConnectivitySource.observe().collectLatest {
-            Log.e(TAG, "network status: $it")
+            Log.e(logTag, "network status: $it")
             _networkConnectivityLiveData.value = it
         }
     }

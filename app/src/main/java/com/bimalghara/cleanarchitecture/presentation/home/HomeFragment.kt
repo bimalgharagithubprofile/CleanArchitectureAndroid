@@ -19,7 +19,7 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class HomeFragment : BaseFragment<FragmentHomeBinding>() {
-    private val TAG = javaClass.simpleName
+    private val logTag = javaClass.simpleName
 
     private val homeViewModel: HomeViewModel by viewModels()
 
@@ -39,9 +39,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                 .rationale("We need all Permissions to see your face")
                 .checkPermission { granted ->
                     if(granted)
-                        Log.e(TAG, "runtime permissions allowed")
+                        Log.e(logTag, "runtime permissions allowed")
                     else
-                        Log.e(TAG, "runtime permissions denied")
+                        Log.e(logTag, "runtime permissions denied")
                 }
         }
 
@@ -65,19 +65,19 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
             }
         }
         observe(homeViewModel.countriesLiveData) {
-            Log.e(TAG, "observe countriesLiveData | ${it.toString()}")
+            Log.e(logTag, "observe countriesLiveData | $it")
             binding.txtResult.text = it.toString()
             when (it) {
                 is ResourceWrapper.Loading -> {
-                    Log.e(TAG, "Loading...")
+                    Log.e(logTag, "Loading...")
                     binding.progressBar.toVisible()
                 }
                 is ResourceWrapper.Success -> {
-                    Log.e(TAG, "successful =>=> ${it.data?.size}")
+                    Log.e(logTag, "successful =>=> ${it.data?.size}")
                     binding.progressBar.toGone()
                 }
                 else -> {
-                    Log.e(TAG, "error ==>> ${it.errorCode}")
+                    Log.e(logTag, "error ==>> ${it.errorCode}")
                     binding.progressBar.toGone()
                     homeViewModel.showError(it.errorCode)
                 }

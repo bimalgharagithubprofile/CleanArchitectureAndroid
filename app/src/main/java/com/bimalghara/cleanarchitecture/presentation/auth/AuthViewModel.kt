@@ -3,13 +3,9 @@ package com.bimalghara.cleanarchitecture.presentation.auth
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.bimalghara.cleanarchitecture.data.error.ERROR_CHECK_YOUR_FIELDS
-import com.bimalghara.cleanarchitecture.data.error.ERROR_PASS_WORD_ERROR
-import com.bimalghara.cleanarchitecture.data.error.ERROR_USER_NAME_ERROR
 import com.bimalghara.cleanarchitecture.domain.use_case.GetErrorDetailsUseCase
 import com.bimalghara.cleanarchitecture.domain.use_case.RegisterOrLoginUseCase
 import com.bimalghara.cleanarchitecture.presentation.base.BaseViewModel
-import com.bimalghara.cleanarchitecture.utils.RegexUtils.isValidEmail
 import com.bimalghara.cleanarchitecture.utils.ResourceWrapper
 import com.bimalghara.cleanarchitecture.utils.SingleEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -38,7 +34,7 @@ class AuthViewModel @Inject constructor(
 
     fun showError(errorCode: Int?) = viewModelScope.launch {
         errorCode?.let {
-            val error = errorDetailsUseCase(errorCode)
+            val error = errorDetailsUseCase(it)
             _errorSingleEvent.value = SingleEvent(error.description)
         }
     }

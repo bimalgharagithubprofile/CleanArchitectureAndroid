@@ -23,7 +23,7 @@ import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class AuthFragment : BaseFragment<FragmentAuthBinding>() {
-    private val TAG = javaClass.simpleName
+    private val logTag = javaClass.simpleName
 
     private val authViewModel: AuthViewModel by viewModels()
 
@@ -50,20 +50,20 @@ class AuthFragment : BaseFragment<FragmentAuthBinding>() {
         observeError(binding.root, authViewModel.errorSingleEvent)
 
         observe(authViewModel.registerOrLoginLiveData) {
-            Log.e(TAG, "observe registerOrLoginLiveData | ${it.toString()}")
+            Log.e(logTag, "observe registerOrLoginLiveData | $it")
             binding.txtResult.text = it.toString()
             when (it) {
                 is ResourceWrapper.Loading -> {
-                    Log.e(TAG, "Loading...")
+                    Log.e(logTag, "Loading...")
                     binding.progressBar.toVisible()
                 }
                 is ResourceWrapper.Success -> {
-                    Log.e(TAG, "successful =>=> id=${it.data}")
+                    Log.e(logTag, "successful =>=> id=${it.data}")
                     binding.progressBar.toGone()
                     navigateToMainScreen()
                 }
                 else -> {
-                    Log.e(TAG, "error ==>> ${it.errorCode}")
+                    Log.e(logTag, "error ==>> ${it.errorCode}")
                     binding.progressBar.toGone()
                     authViewModel.showError(it.errorCode)
                 }
