@@ -56,6 +56,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     override fun observeViewModel() {
         observeError(binding.root, homeViewModel.errorSingleEvent)
 
+        observe(homeViewModel.networkConnectivityLiveData) {
+            binding.tvNetworkStatus.text = "Network Status: $it"
+        }
         observe(homeViewModel.userSessionLiveData) {
             if(it > 0) {
                 binding.tvUserSession.text = "Last Logged-In: $it"
