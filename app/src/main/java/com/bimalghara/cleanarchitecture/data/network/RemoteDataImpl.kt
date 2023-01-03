@@ -13,9 +13,8 @@ import javax.inject.Inject
  */
 
 class RemoteDataImpl @Inject constructor(
-    private val serviceGenerator: ApiServiceGenerator,
-    networkConnectivitySource: NetworkConnectivitySource
-) : RemoteDataSource, SafeApiRequest(networkConnectivitySource) {
+    private val serviceGenerator: ApiServiceGenerator
+) : RemoteDataSource, SafeApiRequest() {
 
     override suspend fun requestCountries(): ResourceWrapper<List<CountryDTO>> {
         val recipesService = serviceGenerator.createApiService(ApiServiceCountries::class.java)

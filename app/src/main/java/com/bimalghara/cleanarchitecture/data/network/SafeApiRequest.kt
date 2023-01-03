@@ -13,14 +13,10 @@ import java.net.SocketTimeoutException
  * Created by BimalGhara
  */
 
-abstract class SafeApiRequest(private val networkConnectivitySource: NetworkConnectivitySource) {
+abstract class SafeApiRequest {
 
     //Expect DTO
     suspend fun<T> apiRequest(call: suspend () -> T): ResourceWrapper<T> {
-        if (!networkConnectivitySource.isConnected()) {
-            return ResourceWrapper.Error(errorCode = ERROR_NO_INTERNET_CONNECTION)
-        }
-
         return try{
             ResourceWrapper.Success(data = call.invoke())
         }catch (throwable: Throwable) {
@@ -40,12 +36,12 @@ abstract class SafeApiRequest(private val networkConnectivitySource: NetworkConn
     }
 
     //Expect Response [retrofit]
-    /*suspend fun processCall(responseCall: suspend () -> Response<*>): Any? {
+    /*suspend fun apiRequest(call: suspend () -> Response<*>): Any? {
         if (!networkConnectivitySource.isConnected()) {
             return ERROR_NO_INTERNET_CONNECTION
         }
         return try {
-            val response = responseCall.invoke()
+            val response = call.invoke()
             val responseCode = response.code()
             if (response.isSuccessful) {
                 response.body()

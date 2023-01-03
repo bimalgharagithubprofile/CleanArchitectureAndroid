@@ -92,7 +92,7 @@ class DataModuleDataSources {
 
     @Provides
     @Singleton
-    fun provideRemoteData(serviceGenerator: ApiServiceGenerator, networkConnectivitySource: NetworkConnectivitySource): RemoteDataSource {
-        return RemoteDataImpl(serviceGenerator, networkConnectivitySource)
+    fun provideRemoteData(serviceGenerator: ApiServiceGenerator): RemoteDataSource {
+        return RemoteDataImpl(serviceGenerator)
     }
 }
