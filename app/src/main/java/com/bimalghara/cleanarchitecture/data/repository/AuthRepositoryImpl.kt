@@ -5,7 +5,6 @@ import com.bimalghara.cleanarchitecture.data.error.ERROR_AUTH_FAILED
 import com.bimalghara.cleanarchitecture.data.local.LocalDataSource
 import com.bimalghara.cleanarchitecture.domain.model.auth.AuthData
 import com.bimalghara.cleanarchitecture.domain.repository.AuthRepositorySource
-import com.bimalghara.cleanarchitecture.utils.ResourceWrapper
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
@@ -28,7 +27,7 @@ class AuthRepositoryImpl @Inject constructor(private val localDataSource: LocalD
             localDataSource.saveUserId(response)
             response
         } else {
-            throw CustomException(code = ERROR_AUTH_FAILED)
+            throw CustomException(cause = ERROR_AUTH_FAILED)
         }
     }
 

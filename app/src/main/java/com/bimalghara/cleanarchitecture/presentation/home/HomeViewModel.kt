@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.bimalghara.cleanarchitecture.data.error.CustomException
 import com.bimalghara.cleanarchitecture.data.error.ERROR_NO_INTERNET_CONNECTION
 import com.bimalghara.cleanarchitecture.data.error.ErrorDetails
 import com.bimalghara.cleanarchitecture.domain.model.country.Country
@@ -28,17 +29,14 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val networkConnectivitySource: NetworkConnectivitySource,
-    private val errorDetailsUseCase: GetErrorDetailsUseCase,
+    errorDetailsUseCase: GetErrorDetailsUseCase,
     private val getUserSessionUseCase: GetUserSessionUseCase,
     private val getCountryListUseCase: GetCountryListUseCase
-) : BaseViewModel() {
+) : BaseViewModel(errorDetailsUseCase) {
     private val logTag = javaClass.simpleName
 
     private val _networkConnectivityLiveData = MutableLiveData<NetworkConnectivitySource.Status>()
     val networkConnectivityLiveData: LiveData<NetworkConnectivitySource.Status> get() = _networkConnectivityLiveData
-
-    private val _errorSingleEvent = MutableLiveData<SingleEvent<Any>>()
-    val errorSingleEvent: LiveData<SingleEvent<Any>> get() = _errorSingleEvent
 
     private var _userSessionJob: Job? = null
     private val _userSessionLiveData = MutableLiveData<Long>()
@@ -51,14 +49,6 @@ class HomeViewModel @Inject constructor(
     init {
         observeNetworkStatus()
         getUserSessionDetails()
-    }
-
-    fun showError(errorDetails: ErrorDetails?) = viewModelScope.launch {
-        errorDetails?.let {
-            Log.e(logTag, "showing error for: $it")
-//            val error = errorDetailsUseCase(it)
-//            _errorSingleEvent.value = SingleEvent(error.description)
-        }
     }
 
     private fun observeNetworkStatus() = viewModelScope.launch {
@@ -78,15 +68,20 @@ class HomeViewModel @Inject constructor(
     //it will instantiate new Flow
     //to prevent this cancel the old flow if exists[it's for reloading button or so]
     fun getCountryList() {
-        /*if(networkConnectivityLiveData.value != NetworkConnectivitySource.Status.Available) {
-            showError(ErrorDetails(code = ERROR_NO_INTERNET_CONNECTION))
+        if(networkConnectivityLiveData.value != NetworkConnectivitySource.Status.Available) {
+            showError(CustomException(cause = ERROR_NO_INTERNET_CONNECTION))
             return
-        }*/
+        }
 
         _countriesJob?.cancel()
         _countriesJob = getCountryListUseCase().onEach {
 
-        _countriesLiveData.value = it
+            when(it){
+                is ResourceWrapper.Error -> showError(it.error)
+                else -> Unit
+            }
+
+            _countriesLiveData.value = it
 
         }.launchIn(viewModelScope)
     }

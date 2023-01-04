@@ -4,4 +4,4 @@ package com.bimalghara.cleanarchitecture.data.error
  * Created by BimalGhara
  */
 
-class CustomException(code: Int): Exception(code.toString())
+class CustomException(cause: String): Exception(cause)

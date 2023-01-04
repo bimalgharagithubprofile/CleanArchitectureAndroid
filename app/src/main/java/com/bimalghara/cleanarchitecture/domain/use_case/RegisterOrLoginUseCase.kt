@@ -18,11 +18,11 @@ class RegisterOrLoginUseCase(private val authRepositorySource: AuthRepositorySou
         val isPassWordValid = password.trim().length > 4
 
         if (isUsernameValid && !isPassWordValid) {
-            emit(ResourceWrapper.Error(errorDetails = ErrorDetails(code = ERROR_PASS_WORD_ERROR)))
+            emit(ResourceWrapper.Error(CustomException(cause = ERROR_PASS_WORD_ERROR)))
         } else if (!isUsernameValid && isPassWordValid) {
-            emit(ResourceWrapper.Error(errorDetails = ErrorDetails(code = ERROR_USER_NAME_ERROR)))
+            emit(ResourceWrapper.Error(CustomException(cause = ERROR_USER_NAME_ERROR)))
         } else if (!isUsernameValid && !isPassWordValid) {
-            emit(ResourceWrapper.Error(errorDetails = ErrorDetails(code = ERROR_CHECK_YOUR_FIELDS)))
+            emit(ResourceWrapper.Error(CustomException(cause = ERROR_CHECK_YOUR_FIELDS)))
         } else {
             //emit(authRepositorySource.registerOrLogin(username, password))
 
@@ -30,9 +30,8 @@ class RegisterOrLoginUseCase(private val authRepositorySource: AuthRepositorySou
                 val result = authRepositorySource.registerOrLogin(username, password)
                 emit(ResourceWrapper.Success(data = result))
             }catch (e: CustomException){
-                emit(ResourceWrapper.Error(errorDetails = ErrorDetails(code = e.message!!.toInt())))
+                emit(ResourceWrapper.Error(e))
             }
-
         }
 
     }.flowOn(Dispatchers.IO)

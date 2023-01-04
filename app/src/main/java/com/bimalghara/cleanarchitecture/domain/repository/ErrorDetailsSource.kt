@@ -7,5 +7,5 @@ import com.bimalghara.cleanarchitecture.data.error.ErrorDetails
  */
 
 interface ErrorDetailsSource {
-    suspend fun getErrorDetails(errorCode: Int): ErrorDetails
+    suspend fun getErrorDetails(cause: String): ErrorDetails
 }

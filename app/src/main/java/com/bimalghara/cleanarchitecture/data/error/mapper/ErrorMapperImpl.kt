@@ -11,11 +11,11 @@ class ErrorMapperImpl @Inject constructor(@ApplicationContext val context: Conte
 
 
 
-    override fun getErrorByCode(errorCode: Int): ErrorDetails {
+    override fun getErrorByCode(errorCode: String): ErrorDetails {
         return ErrorDetails(code = errorCode, description = errorsMap.getValue(errorCode))
     }
 
-    override val errorsMap: Map<Int, String>
+    override val errorsMap: Map<String, String>
         get() = mapOf(
             Pair(ERROR_NO_INTERNET_CONNECTION, getErrorString(R.string.no_internet)),
             Pair(ERROR_NETWORK_ERROR, getErrorString(R.string.network_error)),
@@ -24,6 +24,8 @@ class ErrorMapperImpl @Inject constructor(@ApplicationContext val context: Conte
             Pair(ERROR_USER_NAME_ERROR, getErrorString(R.string.invalid_username)),
             Pair(ERROR_PASS_WORD_ERROR, getErrorString(R.string.invalid_password)),
             Pair(ERROR_CHECK_YOUR_FIELDS, getErrorString(R.string.empty_fields)),
+
+            Pair(ERROR_AUTH_FAILED, getErrorString(R.string.auth_failed)),
 
         ).withDefault { "Oops! Something went wrong" }
 

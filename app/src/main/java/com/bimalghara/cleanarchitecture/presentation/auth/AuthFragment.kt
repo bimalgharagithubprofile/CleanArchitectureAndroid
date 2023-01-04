@@ -47,7 +47,7 @@ class AuthFragment : BaseFragment<FragmentAuthBinding>() {
     }
 
     override fun observeViewModel() {
-        observeError(binding.root, authViewModel.errorSingleEvent)
+        observeError(authViewModel.errorSingleEvent)
 
         observe(authViewModel.registerOrLoginLiveData) {
             Log.e(logTag, "observe registerOrLoginLiveData | $it")
@@ -63,9 +63,7 @@ class AuthFragment : BaseFragment<FragmentAuthBinding>() {
                     navigateToMainScreen()
                 }
                 else -> {
-                    Log.e(logTag, "error ==>> ${it.errorDetails}")
                     binding.progressBar.toGone()
-                    authViewModel.showError(it.errorDetails)
                 }
             }
         }

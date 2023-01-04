@@ -35,7 +35,7 @@ abstract class BaseFragment<B: ViewBinding> : Fragment() {
         observeViewModel()
     }
 
-    fun observeError(rootLayout: ConstraintLayout, event: LiveData<SingleEvent<Any>>) {
-        rootLayout.showToast(this, event, Snackbar.LENGTH_LONG)
+    fun observeError(event: LiveData<SingleEvent<Any>>) {
+        binding.root.showToast(this, event, Snackbar.LENGTH_LONG)
     }
 }

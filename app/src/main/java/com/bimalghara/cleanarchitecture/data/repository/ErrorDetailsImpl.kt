@@ -11,8 +11,17 @@ import javax.inject.Inject
 
 class ErrorDetailsImpl @Inject constructor(private val errorMapperSource: ErrorMapperSource) : ErrorDetailsSource {
 
-    override suspend fun getErrorDetails(errorCode: Int): ErrorDetails {
-        return errorMapperSource.getErrorByCode(errorCode)
+    override suspend fun getErrorDetails(cause: String): ErrorDetails {
+
+        // 2 types of error:
+        // 1 -> String-Resource  [ie: -7*** ]
+        // 2 -> kotlin.Exception [ie: message as String]
+
+        return if(cause.startsWith("-")){
+            errorMapperSource.getErrorByCode(cause)
+        } else {
+            ErrorDetails(cause)
+        }
     }
 
 }

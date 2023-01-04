@@ -4,7 +4,6 @@ import android.util.Log
 import com.bimalghara.cleanarchitecture.data.error.CustomException
 import com.bimalghara.cleanarchitecture.data.error.ERROR_NETWORK_ERROR
 import com.bimalghara.cleanarchitecture.data.error.ERROR_SOCKET_TIMEOUT
-import com.bimalghara.cleanarchitecture.utils.ResourceWrapper
 import retrofit2.HttpException
 import java.net.SocketTimeoutException
 
@@ -22,13 +21,13 @@ abstract class SafeApiRequest {
             Log.e("REST_API_Exc", "ERROR api invoke() => ${throwable.printStackTrace()}")
             when (throwable) {
                 is HttpException -> {
-                    throw CustomException(code = throwable.code())
+                    throw CustomException(cause = throwable.code().toString())
                 }
                 is SocketTimeoutException -> {
-                    throw CustomException(code = ERROR_SOCKET_TIMEOUT)
+                    throw CustomException(cause = ERROR_SOCKET_TIMEOUT)
                 }
                 else -> {
-                    throw CustomException(code = ERROR_NETWORK_ERROR)
+                    throw CustomException(cause = ERROR_NETWORK_ERROR)
                 }
             }
         }

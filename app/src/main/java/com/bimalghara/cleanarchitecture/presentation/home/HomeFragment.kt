@@ -54,7 +54,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
 
     override fun observeViewModel() {
-        observeError(binding.root, homeViewModel.errorSingleEvent)
+        observeError(homeViewModel.errorSingleEvent)
 
         observe(homeViewModel.networkConnectivityLiveData) {
             binding.tvNetworkStatus.text = "Network Status: $it"
@@ -77,9 +77,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                     binding.progressBar.toGone()
                 }
                 else -> {
-                    Log.e(logTag, "error ==>> ${it.errorDetails}")
                     binding.progressBar.toGone()
-                    homeViewModel.showError(it.errorDetails)
                 }
             }
         }

@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.bimalghara.cleanarchitecture.data.error.CustomException
 import com.bimalghara.cleanarchitecture.data.error.ErrorDetails
 import com.bimalghara.cleanarchitecture.domain.use_case.GetErrorDetailsUseCase
 import com.bimalghara.cleanarchitecture.domain.use_case.RegisterOrLoginUseCase
@@ -22,32 +23,25 @@ import javax.inject.Inject
  */
 @HiltViewModel
 class AuthViewModel @Inject constructor(
-    private val errorDetailsUseCase: GetErrorDetailsUseCase,
+    errorDetailsUseCase: GetErrorDetailsUseCase,
     private val registerOrLoginUseCase: RegisterOrLoginUseCase
-) : BaseViewModel() {
+) : BaseViewModel(errorDetailsUseCase) {
     private val logTag = javaClass.simpleName
-
-    private val _errorSingleEvent = MutableLiveData<SingleEvent<Any>>()
-    val errorSingleEvent: LiveData<SingleEvent<Any>> get() = _errorSingleEvent
 
     private var _registerOrLoginJob: Job? = null
     private val _registerOrLoginLiveData = MutableLiveData<ResourceWrapper<Long>>()
     val registerOrLoginLiveData: LiveData<ResourceWrapper<Long>> get() = _registerOrLoginLiveData
-
-
-    fun showError(errorDetails: ErrorDetails?) = viewModelScope.launch {
-        errorDetails?.let {
-            Log.e(logTag, "showing error for: $it")
-//            val error = errorDetailsUseCase(it)
-//            _errorSingleEvent.value = SingleEvent(error.description)
-        }
-    }
 
     //it will instantiate new Flow
     //to prevent this cancel the old flow if exists[it's for re-attempt to register/login or so]
     fun authenticate(userName: String, passWord: String) {
         _registerOrLoginJob?.cancel()
         _registerOrLoginJob = registerOrLoginUseCase(userName, passWord).onEach {
+
+            when(it){
+                is ResourceWrapper.Error -> showError(it.error)
+                else-> Unit
+            }
 
             _registerOrLoginLiveData.value = it
 

@@ -23,7 +23,7 @@ class GetCountryListUseCase(private val countryRepositorySource: CountryReposito
             val result = countryRepositorySource.getCountryList()
             emit(ResourceWrapper.Success(data = result))
         }catch (e: CustomException){
-            emit(ResourceWrapper.Error(errorDetails = ErrorDetails(code = e.message!!.toInt())))
+            emit(ResourceWrapper.Error(e))
         }
 
     }.flowOn(Dispatchers.IO)

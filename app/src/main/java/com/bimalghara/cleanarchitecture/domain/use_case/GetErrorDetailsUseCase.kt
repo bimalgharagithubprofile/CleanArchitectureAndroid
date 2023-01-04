@@ -11,7 +11,7 @@ import kotlinx.coroutines.withContext
 
 class GetErrorDetailsUseCase(private val errorDetailsSource: ErrorDetailsSource) {
 
-    suspend operator fun invoke(errorCode: Int): ErrorDetails = withContext(Dispatchers.IO){
-        errorDetailsSource.getErrorDetails(errorCode)
+    suspend operator fun invoke(cause: String): ErrorDetails = withContext(Dispatchers.IO){
+        errorDetailsSource.getErrorDetails(cause)
     }
 }

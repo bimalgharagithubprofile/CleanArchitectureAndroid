@@ -5,7 +5,7 @@ import com.bimalghara.cleanarchitecture.data.error.ErrorDetails
 interface ErrorMapperSource {
     //fun getErrorString(errorId: Int): String
 
-    fun getErrorByCode(errorCode: Int): ErrorDetails
+    fun getErrorByCode(errorCode: String): ErrorDetails
 
-    val errorsMap: Map<Int, String>
+    val errorsMap: Map<String, String>
 }
