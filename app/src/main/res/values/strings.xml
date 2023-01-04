@@ -14,6 +14,6 @@
     <string name="invalid_password">Password must be >4 characters</string>
     <string name="empty_fields">Fields can\'t be empty!</string>
 
-    <string name="auth_failed">Failed to authenticate</string>
+    <string name="authentication_failed">Failed to authenticate</string>
 
 </resources>
