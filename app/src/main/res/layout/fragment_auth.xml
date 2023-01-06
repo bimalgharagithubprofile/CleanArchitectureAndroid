@@ -4,13 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:padding="10dp"
     tools:context=".presentation.auth.AuthFragment">
 
     <androidx.appcompat.widget.AppCompatEditText
         android:id="@+id/etUsername"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="188dp"
         android:hint="Email (anything dummy)"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.526"
@@ -30,9 +30,9 @@
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btnRegister"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="10dp"
         android:text="Register / Login"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -42,12 +42,22 @@
         android:id="@+id/txtResult"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="10dp"
         android:text="Result:"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnRegister" />
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvAllUsers"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@+id/txtResult"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:listitem="@layout/item_user"
+        />
 
     <FrameLayout
         android:id="@+id/progressBar"

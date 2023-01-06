@@ -7,9 +7,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.bimalghara.cleanarchitecture.R
 import com.bimalghara.cleanarchitecture.databinding.FragmentAuthBinding
+import com.bimalghara.cleanarchitecture.domain.model.auth.AuthData
 import com.bimalghara.cleanarchitecture.presentation.base.BaseFragment
+import com.bimalghara.cleanarchitecture.presentation.base.OnRecyclerViewItemClick
 import com.bimalghara.cleanarchitecture.utils.*
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
@@ -27,6 +30,8 @@ class AuthFragment : BaseFragment<FragmentAuthBinding>() {
 
     private val authViewModel: AuthViewModel by viewModels()
 
+    private lateinit var allUserAdapter: AllUsersAdapter
+
     override fun getFragmentBinding(
         inflater: LayoutInflater,
         container: ViewGroup?
@@ -35,6 +40,8 @@ class AuthFragment : BaseFragment<FragmentAuthBinding>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        setupUsersRecyclerview()
 
         binding.btnRegister.setOnClickListener {
             binding.root.hideKeyboard()
@@ -46,8 +53,29 @@ class AuthFragment : BaseFragment<FragmentAuthBinding>() {
         }
     }
 
+    private fun setupUsersRecyclerview() {
+        allUserAdapter = AllUsersAdapter(requireContext()).also {
+            it.setOnItemClickListener(object : OnRecyclerViewItemClick<AuthData>{
+                override fun onItemClick(position: Int, data: AuthData) {
+                    Log.e(logTag, "allUserAdapter::onItemClick => $data")
+                    requireContext().toast("${data.firstName}")
+                }
+            })
+        }
+
+        binding.rvAllUsers.apply {
+            this.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+            this.adapter = allUserAdapter
+        }
+    }
+
     override fun observeViewModel() {
         observeError(authViewModel.errorSingleEvent)
+
+        observe(authViewModel.getAllUsersLiveData) {
+            Log.e(logTag, "observe getAllUsersLiveData | $it")
+            allUserAdapter.differ.submitList(it)
+        }
 
         observe(authViewModel.registerOrLoginLiveData) {
             Log.e(logTag, "observe registerOrLoginLiveData | $it")

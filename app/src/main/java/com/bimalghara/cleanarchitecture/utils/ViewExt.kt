@@ -1,6 +1,7 @@
 package com.bimalghara.cleanarchitecture.utils
 
 import android.app.Service
+import android.content.Context
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
@@ -83,6 +84,10 @@ fun View.setupSnackBar(
 
         }
     })
+}
+
+fun Context.toast(message: String){
+    Toast.makeText(this, message, Toast.LENGTH_LONG).show()
 }
 
 fun View.showToast(
