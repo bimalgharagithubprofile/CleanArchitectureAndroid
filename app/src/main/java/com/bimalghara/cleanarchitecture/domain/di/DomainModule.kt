@@ -8,6 +8,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import kotlin.coroutines.CoroutineContext
 
 /**
  * Created by BimalGhara
@@ -23,8 +24,8 @@ class DomainModule {
     }
 
     @Provides
-    fun provideRegisterOrLoginUseCase(authRepositorySource: AuthRepositorySource): RegisterOrLoginUseCase{
-        return RegisterOrLoginUseCase(authRepositorySource = authRepositorySource)
+    fun provideRegisterOrLoginUseCase(coroutineContext: CoroutineContext, authRepositorySource: AuthRepositorySource): RegisterOrLoginUseCase{
+        return RegisterOrLoginUseCase(ioDispatcher = coroutineContext, authRepositorySource = authRepositorySource)
     }
 
 
@@ -34,13 +35,13 @@ class DomainModule {
     }
 
     @Provides
-    fun provideGetUserSessionUseCase(authRepositorySource: AuthRepositorySource): GetUserSessionUseCase{
-        return GetUserSessionUseCase(authRepositorySource = authRepositorySource)
+    fun provideGetUserSessionUseCase(coroutineContext: CoroutineContext, authRepositorySource: AuthRepositorySource): GetUserSessionUseCase{
+        return GetUserSessionUseCase(ioDispatcher = coroutineContext, authRepositorySource = authRepositorySource)
     }
 
     @Provides
-    fun provideGetCountryListUseCase(countryRepositorySource: CountryRepositorySource): GetCountryListUseCase{
-        return GetCountryListUseCase(countryRepositorySource = countryRepositorySource)
+    fun provideGetCountryListUseCase(coroutineContext: CoroutineContext, countryRepositorySource: CountryRepositorySource): GetCountryListUseCase{
+        return GetCountryListUseCase(ioDispatcher = coroutineContext, countryRepositorySource = countryRepositorySource)
     }
 
 

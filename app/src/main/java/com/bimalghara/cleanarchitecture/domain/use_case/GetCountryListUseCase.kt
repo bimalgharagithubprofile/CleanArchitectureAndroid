@@ -1,20 +1,19 @@
 package com.bimalghara.cleanarchitecture.domain.use_case
 
 import com.bimalghara.cleanarchitecture.data.error.CustomException
-import com.bimalghara.cleanarchitecture.data.error.ErrorDetails
 import com.bimalghara.cleanarchitecture.domain.model.country.Country
 import com.bimalghara.cleanarchitecture.domain.repository.CountryRepositorySource
 import com.bimalghara.cleanarchitecture.utils.ResourceWrapper
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
+import kotlin.coroutines.CoroutineContext
 
 /**
  * Created by BimalGhara
  */
 
-class GetCountryListUseCase(private val countryRepositorySource: CountryRepositorySource)  {
+class GetCountryListUseCase(private val ioDispatcher: CoroutineContext, private val countryRepositorySource: CountryRepositorySource)  {
 
     operator fun invoke():Flow<ResourceWrapper<List<Country>>> = flow {
         emit(ResourceWrapper.Loading())
@@ -26,7 +25,7 @@ class GetCountryListUseCase(private val countryRepositorySource: CountryReposito
             emit(ResourceWrapper.Error(e))
         }
 
-    }.flowOn(Dispatchers.IO)
+    }.flowOn(ioDispatcher)
 
 
 }

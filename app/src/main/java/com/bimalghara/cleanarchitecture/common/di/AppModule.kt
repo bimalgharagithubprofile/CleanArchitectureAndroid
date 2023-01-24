@@ -8,12 +8,20 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import kotlinx.coroutines.Dispatchers
 import javax.inject.Singleton
+import kotlin.coroutines.CoroutineContext
 
 /* instantiate class */
 @InstallIn(SingletonComponent::class)
 @Module
 class AppModuleNetworkConnectivity {
+
+    @Provides
+    @Singleton
+    fun provideCoroutineContextIO(): CoroutineContext {
+        return Dispatchers.IO
+    }
 
     @Provides
     @Singleton

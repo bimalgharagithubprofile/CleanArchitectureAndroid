@@ -1,23 +1,18 @@
 package com.bimalghara.cleanarchitecture.presentation.auth
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.bimalghara.cleanarchitecture.data.error.CustomException
-import com.bimalghara.cleanarchitecture.data.error.ErrorDetails
 import com.bimalghara.cleanarchitecture.domain.model.auth.AuthData
 import com.bimalghara.cleanarchitecture.domain.use_case.GetAllRegisteredUsersUseCase
 import com.bimalghara.cleanarchitecture.domain.use_case.GetErrorDetailsUseCase
 import com.bimalghara.cleanarchitecture.domain.use_case.RegisterOrLoginUseCase
 import com.bimalghara.cleanarchitecture.presentation.base.BaseViewModel
 import com.bimalghara.cleanarchitecture.utils.ResourceWrapper
-import com.bimalghara.cleanarchitecture.utils.SingleEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 /**
