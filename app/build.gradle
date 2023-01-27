@@ -44,9 +44,26 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
 
-    testImplementation 'junit:junit:4.13.2'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.4'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.0'
+    // testing JVM
+    testImplementation 'junit:junit:4.13.2'//Junit-4 testing framework
+    testImplementation 'androidx.arch.core:core-testing:2.1.0'//InstantTaskExecutorRule
+    testImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.1'//coroutines
+    testImplementation 'com.google.truth:truth:1.1.3' //assertion
+    testImplementation 'io.mockk:mockk:1.10.5'//mocking behaviour
+    testImplementation 'com.squareup.okhttp3:mockwebserver:4.9.1'//simulate network call
+    // testing Instrumentation
+    androidTestImplementation 'junit:junit:4.13.2'//Junit-4 testing framework
+    androidTestImplementation 'androidx.test.ext:junit-ktx:1.1.5'
+    androidTestImplementation 'androidx.arch.core:core-testing:2.1.0'//InstantTaskExecutorRule
+    androidTestImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.1'//coroutines
+    androidTestImplementation 'com.google.truth:truth:1.1.3' //assertion
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'//ui interaction
+    androidTestImplementation 'androidx.test.espresso:espresso-idling-resource:3.5.1'//ui interaction
+    androidTestImplementation 'androidx.test.espresso:espresso-contrib:3.5.1'//ui interaction
+    androidTestImplementation 'io.mockk:mockk:1.10.5'//mocking behaviour
+    androidTestImplementation 'com.squareup.okhttp3:mockwebserver:4.9.1'//simulate network call
+    androidTestImplementation 'com.google.dagger:hilt-android-testing:2.37'//hilt test environment
+    kaptAndroidTest 'com.google.dagger:hilt-android-compiler:2.37'//hilt test environment
 
     // Dagger - Hilt
     implementation 'com.google.dagger:hilt-android:2.42'
